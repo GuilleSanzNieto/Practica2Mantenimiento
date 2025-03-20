@@ -135,6 +135,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
             if(this.left != null){
                 if(this.left.value.equals(value)){
                     this.left=null; 
+                    this.right=null;
                 }else{
                     this.left.removeBranch(value);
                 }
@@ -143,6 +144,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
             if(this.right != null){
                 if(this.right.value.equals(value)){
                     this.right = null; 
+                    this.left=null;
                 }else{
                     this.right.removeBranch(value);
                 }

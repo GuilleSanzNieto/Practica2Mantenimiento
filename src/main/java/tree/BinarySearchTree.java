@@ -144,7 +144,6 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
             this.left=null; 
             this.right=null; 
         }
-        
     }
 
     @Override

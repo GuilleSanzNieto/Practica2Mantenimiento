@@ -43,6 +43,10 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
 
     @Override
     public void insert(T value) {
+        if(value.equals(this.value)){
+            throw new BinarySearchTreeException("El valor ya existe");
+        }
+        
         if (this.value == null){
             this.value = value;
         }else{
@@ -83,7 +87,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
                 if(this.left != null){
                      cont = this.left.contains(value);
                 }
-            }else if(comparator.compare(value, this.value) > 0){
+            }else{
                 if(this.right != null){
                     cont = this.right.contains(value);
                 }
@@ -98,12 +102,12 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
         if(this.value==null){
             throw new BinarySearchTreeException("Arbol vacio");
         }
-        T min=  null;
-        //El minimo estara  a la izquierda del arbol lo mas que se pueda y sera una hoja 
+        T min =  null;
+        //El minimo estara  a la izquierda del arbol lo mas que se pueda
         if(this.left != null){
             min = this.left.minimum();
-        }else if(this.left.isLeaf()){
-            min = this.left.value;
+        }else {
+            min = this.value;
         }
         // TODO
         return min;
@@ -118,8 +122,8 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
         //El maximo estara a la derecha del arbol lo mas que se pueda y sera una hoja
         if(this.right != null){
             max = this.right.maximum();
-        }else if(this.right.isLeaf()){
-            max = this.right.value;
+        }else {
+            max = this.value;
         }
         // TODO
         return max;
@@ -132,13 +136,9 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
         }
        
         if(comparator.compare(value, this.value) < 0){
-            if(this.left != null){
-                    this.left.removeBranch(value);
-            }
+                this.left.removeBranch(value);
         }else if(comparator.compare(value, this.value) > 0){
-            if(this.right != null){
                 this.right.removeBranch(value);
-            }
         }else{
             this.value=null; 
             this.left=null; 

@@ -47,14 +47,14 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
             this.value = value;
         }else{
             if (comparator.compare(value, this.value) < 0){
-                if (this.left.isLeaf()){
+                if (this.left == null){
                     this.left = new BinarySearchTree<T>(comparator);
                     this.left.value = value;
                 }else{
                     this.left.insert(value);
                 }
             }else{
-                if (this.right.isLeaf()){
+                if (this.right==null){
                     this.right = new BinarySearchTree<T>(comparator);
                     this.right.value = value;
                 }else{
@@ -133,21 +133,11 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
        
         if(comparator.compare(value, this.value) < 0){
             if(this.left != null){
-                if(this.left.value.equals(value)){
-                    this.left=null; 
-                    this.right=null;
-                }else{
                     this.left.removeBranch(value);
-                }
             }
         }else if(comparator.compare(value, this.value) > 0){
             if(this.right != null){
-                if(this.right.value.equals(value)){
-                    this.right = null; 
-                    this.left=null;
-                }else{
-                    this.right.removeBranch(value);
-                }
+                this.right.removeBranch(value);
             }
         }else{
             this.value=null; 

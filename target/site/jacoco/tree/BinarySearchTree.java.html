@@ -17,13 +17,13 @@ public class BinarySearchTree&lt;T&gt; implements BinarySearchTreeStructure&lt;T
 <span class="fc" id="L17">            render += value.toString();</span>
         }
 
-<span class="pc bpc" id="L20" title="1 of 4 branches missed.">        if (left != null || right != null) {</span>
+<span class="fc bfc" id="L20" title="All 4 branches covered.">        if (left != null || right != null) {</span>
 <span class="fc" id="L21">            render += &quot;(&quot;;</span>
-<span class="pc bpc" id="L22" title="1 of 2 branches missed.">            if (left != null) {</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">            if (left != null) {</span>
 <span class="fc" id="L23">                render += left.render();</span>
             }
 <span class="fc" id="L25">            render += &quot;,&quot;;</span>
-<span class="pc bpc" id="L26" title="1 of 2 branches missed.">            if (right != null) {</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            if (right != null) {</span>
 <span class="fc" id="L27">                render += right.render();</span>
             }
 <span class="fc" id="L29">            render += &quot;)&quot;;</span>
@@ -46,7 +46,7 @@ public class BinarySearchTree&lt;T&gt; implements BinarySearchTreeStructure&lt;T
 <span class="fc bfc" id="L46" title="All 2 branches covered.">        if(value.equals(this.value)){</span>
 <span class="fc" id="L47">            throw new BinarySearchTreeException(&quot;El valor ya existe&quot;);</span>
         }
-        
+
 <span class="fc bfc" id="L50" title="All 2 branches covered.">        if (this.value == null){</span>
 <span class="fc" id="L51">            this.value = value;</span>
 <span class="fc" id="L52">        }else{</span>
@@ -131,56 +131,58 @@ public class BinarySearchTree&lt;T&gt; implements BinarySearchTreeStructure&lt;T
 
     @Override
     public void removeBranch(T value){
-<span class="fc bfc" id="L134" title="All 2 branches covered.">        if(this.value==null){</span>
+<span class="fc bfc" id="L134" title="All 4 branches covered.">        if(this.value==null || !this.contains(value)){</span>
 <span class="fc" id="L135">            throw new BinarySearchTreeException(&quot;Arbol vacio&quot;);</span>
         }
        
 <span class="fc bfc" id="L138" title="All 2 branches covered.">        if(comparator.compare(value, this.value) &lt; 0){</span>
-<span class="fc" id="L139">                this.left.removeBranch(value);</span>
-<span class="fc bfc" id="L140" title="All 2 branches covered.">        }else if(comparator.compare(value, this.value) &gt; 0){</span>
-<span class="fc" id="L141">                this.right.removeBranch(value);</span>
-<span class="fc" id="L142">        }else{</span>
-<span class="fc" id="L143">            this.value=null; </span>
-<span class="fc" id="L144">            this.left=null; </span>
-<span class="fc" id="L145">            this.right=null; </span>
+<span class="fc" id="L139">            this.left.removeBranch(value);</span>
+            
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        }else if(comparator.compare(value, this.value) &gt; 0){</span>
+<span class="fc" id="L142">            this.right.removeBranch(value);</span>
+            
+<span class="fc" id="L144">        }else{</span>
+<span class="fc" id="L145">            this.value=null; </span>
+<span class="fc" id="L146">            this.left=null; </span>
+<span class="fc" id="L147">            this.right=null; </span>
         }
-<span class="fc" id="L147">    }</span>
+<span class="fc" id="L149">    }</span>
 
     @Override
     public int size() {
-<span class="fc" id="L151">        int cont = 0;</span>
+<span class="fc" id="L153">        int cont = 0;</span>
         //Recorro todo el arbol y por cada nodo que no sea nulo aumento el contador
-<span class="fc bfc" id="L153" title="All 2 branches covered.">        if(this.value != null){</span>
-<span class="fc" id="L154">            cont++;</span>
-<span class="fc bfc" id="L155" title="All 2 branches covered.">            if(this.left != null){</span>
-<span class="fc" id="L156">                cont += this.left.size();</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">        if(this.value != null){</span>
+<span class="fc" id="L156">            cont++;</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">            if(this.left != null){</span>
+<span class="fc" id="L158">                cont += this.left.size();</span>
             }
-<span class="fc bfc" id="L158" title="All 2 branches covered.">            if(this.right != null){</span>
-<span class="fc" id="L159">                cont += this.right.size();</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">            if(this.right != null){</span>
+<span class="fc" id="L161">                cont += this.right.size();</span>
             }
         }
         //TODO
-<span class="fc" id="L163">        return cont;</span>
+<span class="fc" id="L165">        return cont;</span>
     }
 
     @Override
     public int depth() {
-<span class="fc" id="L168">        int depth = 0; </span>
-<span class="fc bfc" id="L169" title="All 2 branches covered.">        if(this.value != null){</span>
-<span class="fc" id="L170">            int ileft =0; </span>
-<span class="fc" id="L171">            int irigth = 0; </span>
-<span class="fc bfc" id="L172" title="All 2 branches covered.">            if(this.left != null){</span>
-<span class="fc" id="L173">                ileft += this.left.depth();</span>
+<span class="fc" id="L170">        int depth = 0; </span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">        if(this.value != null){</span>
+<span class="fc" id="L172">            int ileft =0; </span>
+<span class="fc" id="L173">            int irigth = 0; </span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">            if(this.left != null){</span>
+<span class="fc" id="L175">                ileft += this.left.depth();</span>
             }
-<span class="fc bfc" id="L175" title="All 2 branches covered.">            if(this.right != null){</span>
-<span class="fc" id="L176">                irigth += this.right.depth();</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">            if(this.right != null){</span>
+<span class="fc" id="L178">                irigth += this.right.depth();</span>
             }
-<span class="fc" id="L178">            depth = Math.max(ileft, irigth) + 1;</span>
-<span class="fc" id="L179">        }else{</span>
-<span class="fc" id="L180">            depth = 0;</span>
+<span class="fc" id="L180">            depth = Math.max(ileft, irigth) + 1;</span>
+<span class="fc" id="L181">        }else{</span>
+<span class="fc" id="L182">            depth = 0;</span>
         }
                 // TODO
-<span class="fc" id="L183">        return depth;</span>
+<span class="fc" id="L185">        return depth;</span>
     }
 
     // Complex operations

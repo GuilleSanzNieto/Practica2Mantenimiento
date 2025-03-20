@@ -43,6 +43,10 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
 
     @Override
     public void insert(T value) {
+        if(value.equals(this.value)){
+            throw new BinarySearchTreeException("El valor ya existe");
+        }
+        
         if (this.value == null){
             this.value = value;
         }else{

@@ -1,4 +1,5 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Comparator;
 
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import tree.BinarySearchTree;
+import tree.BinarySearchTreeException;
 
 public class BinarySearchTreeTest {
     // Test que tenemos que hacer 
@@ -42,6 +44,23 @@ public class BinarySearchTreeTest {
         bst.insert(8);
         //Assert
         assertEquals("5(3(2,4),7(6,8))",bst.render());
+    }
+    @DisplayName("Prueba de que el valor ya existe en el insert salte la excepcion")
+    @Test
+    public void insertIncorrecto(){
+        assertThrows(BinarySearchTreeException.class, ()->{
+            //Arrange 
+            BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
+            //Act
+            bst.insert(5);
+            bst.insert(3);  
+            bst.insert(7);
+            bst.insert(2);
+            bst.insert(4);
+            bst.insert(6);
+            bst.insert(8);
+            bst.insert(5);
+        });
     }
     @DisplayName("Prueba del containst que salga bien, buscando el numero más grande")
     @Test
@@ -91,5 +110,6 @@ public class BinarySearchTreeTest {
         //Assert
         assertEquals(false,bst.contains(9));
     }
+    
 
 }

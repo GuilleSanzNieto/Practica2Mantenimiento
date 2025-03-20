@@ -1,4 +1,4 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-junit5-mps-uma,tree,BinarySearchTree,178,151,42,22,50,45,29,13,6,4
+junit5-mps-uma,tree,BinarySearchTree,178,161,42,24,50,47,29,14,6,4
 junit5-mps-uma,tree,BinarySearchTreeMain,49,0,0,0,13,0,2,0,2,0
-junit5-mps-uma,tree,BinarySearchTreeException,4,0,0,0,2,0,1,0,1,0
+junit5-mps-uma,tree,BinarySearchTreeException,0,4,0,0,0,2,0,1,0,1

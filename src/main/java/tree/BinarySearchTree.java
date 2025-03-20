@@ -136,9 +136,13 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
         }
        
         if(comparator.compare(value, this.value) < 0){
+            if(this.left != null){
                 this.left.removeBranch(value);
+            }
         }else if(comparator.compare(value, this.value) > 0){
+            if(this.right != null){
                 this.right.removeBranch(value);
+            }
         }else{
             this.value=null; 
             this.left=null; 

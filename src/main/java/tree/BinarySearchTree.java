@@ -48,7 +48,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
         if(value.equals(this.value)){
             throw new BinarySearchTreeException("El valor ya existe");
         }
-        
+
         if (this.value == null){
             this.value = value;
         }else{
@@ -133,18 +133,16 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
 
     @Override
     public void removeBranch(T value){
-        if(this.value==null){
+        if(this.value==null || !this.contains(value)){
             throw new BinarySearchTreeException("Arbol vacio");
         }
        
         if(comparator.compare(value, this.value) < 0){
-            if(this.left != null){
-                this.left.removeBranch(value);
-            }
+            this.left.removeBranch(value);
+            
         }else if(comparator.compare(value, this.value) > 0){
-            if(this.right != null){
-                this.right.removeBranch(value);
-            }
+            this.right.removeBranch(value);
+            
         }else{
             this.value=null; 
             this.left=null; 

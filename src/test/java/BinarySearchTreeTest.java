@@ -2,302 +2,252 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import tree.BinarySearchTree;
 import tree.BinarySearchTreeException;
 
 public class BinarySearchTreeTest {
-    // Test que tenemos que hacer 
-    // Una preuba para ver si constains funciona bien
-    //Prueba del TMinimo
-        //si el valor es null que salta la excepcion 
-        //si el valor no es null que retorne el valor minimo
-    //Prueba del TMaximo
-        //si el valor es null que salta la excepcion 
-        //si el valor no es null que retorne el valor maximo
-    //Prueba del removeBranch
-        //si el valor no esta en el arbol que salte la excepcion
-        //si el valor esta en el arbol que lo elimine
-    //Prueba del size
-        //si el arbol esta vacio que retorne 0
-        //si el arbol no esta vacio que retorne el tamaño del arbol
-    //Prueba del depth
-        //si el arbol esta vacio que retorne 0
-        //si el arbol no esta vacio que retorne la profundidad del arbol
-    
-    @DisplayName("Pruebos del insert Test ")
-    @Test
-    public void insertCorrecto(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        bst.insert(5);
-        bst.insert(3);  
-        bst.insert(7);
-        bst.insert(2);
-        bst.insert(4);
-        bst.insert(6);
-        bst.insert(8);
-        //Assert
-        assertEquals("5(3(2,4),7(6,8))",bst.render());
-    }
-    @DisplayName("Prueba de que el valor ya existe en el insert salte la excepcion")
-    @Test
-    public void insertIncorrecto(){
-        assertThrows(BinarySearchTreeException.class, ()->{
-            //Arrange 
-            BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-            //Act
+
+    @Nested
+    @DisplayName("Pruebas de Insert")
+    class InsertTests {
+        @Test
+        @DisplayName("Insertar correctamente")
+        void insertCorrecto() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
             bst.insert(5);
-            bst.insert(3);  
+            bst.insert(3);
             bst.insert(7);
             bst.insert(2);
             bst.insert(4);
             bst.insert(6);
             bst.insert(8);
+            assertEquals("5(3(2,4),7(6,8))", bst.render());
+        }
+
+        @Test
+        @DisplayName("Insertar un valor existente debe lanzar una excepción")
+        void insertIncorrecto() {
+            assertThrows(BinarySearchTreeException.class, () -> {
+                BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+                bst.insert(5);
+                bst.insert(3);
+                bst.insert(7);
+                bst.insert(2);
+                bst.insert(4);
+                bst.insert(6);
+                bst.insert(8);
+                bst.insert(5);
+            });
+        }
+    }
+
+    @Nested
+    @DisplayName("Pruebas de isLeaf")
+    class IsLeafTests {
+        @Test
+        @DisplayName("Debe ser una hoja")
+        void isLeafCorrecto() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
             bst.insert(5);
-        });
+            assertEquals(true, bst.isLeaf());
+        }
+
+        @Test
+        @DisplayName("No debe ser una hoja (hijo izquierdo)")
+        void isLeafIncorrecto1() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(3);
+            assertEquals(false, bst.isLeaf());
+        }
+
+        @Test
+        @DisplayName("No debe ser una hoja (hijo derecho)")
+        void isLeafIncorrecto2() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(7);
+            assertEquals(false, bst.isLeaf());
+        }
     }
 
-    @DisplayName("Prueba del isLeaf que salga bien")
-    @Test
-    public void isLeafCorrecto(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        bst.insert(5);
-        //Assert
-        assertEquals(true,bst.isLeaf());
+    @Nested
+    @DisplayName("Pruebas de Contains")
+    class ContainsTests {
+        @Test
+        @DisplayName("Debe encontrar un número existente")
+        void containsCorrecto() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(3);
+            bst.insert(7);
+            bst.insert(2);
+            bst.insert(4);
+            bst.insert(6);
+            bst.insert(8);
+            assertEquals(true, bst.contains(6));
+        }
+
+        @Test
+        @DisplayName("No debe encontrar un número menor")
+        void containsIncorrectoMenor() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            assertEquals(false, bst.contains(1));
+        }
+
+        @Test
+        @DisplayName("No debe encontrar un número mayor")
+        void containsIncorrectoMayor() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            assertEquals(false, bst.contains(9));
+        }
     }
 
-    @DisplayName("Prueba del isLeaf que salga mal")
-    @Test
-    public void isLeafIncorrecto1(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        bst.insert(5);
-        bst.insert(3); 
-        //Assert
-        assertEquals(false,bst.isLeaf());
+    @Nested
+    @DisplayName("Pruebas de Mínimo")
+    class MinimumTests {
+        @Test
+        @DisplayName("Debe encontrar el valor mínimo")
+        void minimumCorrecto() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(3);
+            bst.insert(2);
+            assertEquals(2, bst.minimum());
+        }
+
+        @Test
+        @DisplayName("Debe lanzar excepción si el árbol está vacío")
+        void minimumIncorrecto() {
+            assertThrows(BinarySearchTreeException.class, () -> new BinarySearchTree<>(Integer::compareTo).minimum());
+        }
     }
 
-    @DisplayName("Prueba del isLeaf que salga mal")
-    @Test
-    public void isLeafIncorrecto2(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        bst.insert(5); 
-        bst.insert(7);
-        //Assert
-        assertEquals(false,bst.isLeaf());
+    @Nested
+    @DisplayName("Pruebas de Máximo")
+    class MaximumTests {
+        @Test
+        @DisplayName("Debe encontrar el valor máximo")
+        void maximumCorrecto() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(7);
+            bst.insert(8);
+            assertEquals(8, bst.maximum());
+        }
+
+        @Test
+        @DisplayName("Debe lanzar excepción si el árbol está vacío")
+        void maximumIncorrecto() {
+            assertThrows(BinarySearchTreeException.class, () -> new BinarySearchTree<>(Integer::compareTo).maximum());
+        }
     }
 
-    @DisplayName("Prueba del contains que salga bien, buscando el numero más grande")
-    @Test
-    public void containsCorrecto(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        bst.insert(5);
-        bst.insert(3);  
-        bst.insert(7);
-        bst.insert(2);
-        bst.insert(4);
-        bst.insert(6);
-        bst.insert(8);
-        //Assert
-        assertEquals(true,bst.contains(6));
-    }
-    @DisplayName("Prueba del contains que salga bien, buscando un numero que no esta en el arbol que sea menor que nodo")
-    @Test
-    public void containsCorrecto3(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        bst.insert(5);
-        bst.insert(3);  
-        bst.insert(7);
-        bst.insert(2);
-        bst.insert(4);
-        bst.insert(6);
-        bst.insert(8);
-        //Assert
-        assertEquals(false,bst.contains(1));
-    }
-    @DisplayName("Prueba del contains que salga bien, buscando un numero que no este en el arbol mayor que nodo")
-    @Test
-    public void containsCorrecto4(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        bst.insert(5);
-        bst.insert(3);  
-        bst.insert(7);
-        bst.insert(2);
-        bst.insert(4);
-        bst.insert(6);
-        bst.insert(8);
-        //Assert
-        assertEquals(false,bst.contains(9));
-    }
-    
-    @DisplayName("Prueba del minimo, que este correcto")
-    @Test
-    public void minimumCorrecto(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        bst.insert(5);
-        bst.insert(3);  
-        bst.insert(7);
-        bst.insert(2);
-        bst.insert(4);
-        bst.insert(6);
-        bst.insert(8);
-        //Assert
-        assertEquals(2,bst.minimum());
-    }
-
-    @DisplayName("Prueba del minimo, que salte la excepcion")
-    @Test
-    public void minimumIncorrecto(){
-        assertThrows(BinarySearchTreeException.class, ()->{
-            //Arrange 
-            BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-            //Act
-            bst.minimum();
-        });
-    }
-
-    @DisplayName("Prueba del maximo, que este correcto")
-    @Test
-    public void maximumCorrecto(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        bst.insert(5);
-        bst.insert(3);  
-        bst.insert(7);
-        bst.insert(2);
-        bst.insert(4);
-        bst.insert(6);
-        bst.insert(8);
-        //Assert
-        assertEquals(8,bst.maximum());
-    }
-
-    @DisplayName("Prueba del maximo, que salte la excepcion")
-    @Test
-    public void maximumIncorrecto(){
-        assertThrows(BinarySearchTreeException.class, ()->{
-            //Arrange 
-            BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-            //Act
-            bst.maximum();
-        });
-    }
-
-    @DisplayName("Prueba del removeBranch, que sea correcto y menor que el nodo")
-    @Test
-    public void removeBranchCorrecto(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        bst.insert(5);
-        bst.insert(3);  
-        bst.insert(7);
-        bst.insert(2);
-        bst.insert(4);
-        bst.insert(6);
-        bst.insert(8);
-        bst.removeBranch(3);
-        //Assert
-        assertEquals("5(,7(6,8))",bst.render());
-    }
-
-    @DisplayName("Prueba del removeBranch, que salte la excepcion")
-    @Test
-    public void removeBranchIncorrecto(){
-        assertThrows(BinarySearchTreeException.class, ()->{
-            //Arrange 
-            BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-            //Act
+    @Nested
+    @DisplayName("Pruebas de RemoveBranch")
+    class RemoveBranchTests {
+        @Test
+        @DisplayName("Debe eliminar un nodo menor")
+        void removeBranchCorrecto() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(3);
             bst.removeBranch(3);
-        });
+            assertEquals("5(,)", bst.render());
+        }
+
+        @Test
+        @DisplayName("Debe lanzar excepción si el nodo no existe")
+        void removeBranchIncorrecto() {
+            assertThrows(BinarySearchTreeException.class, () -> {
+                BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+                bst.removeBranch(3);
+            });
+        }
+
+        @Test
+        @DisplayName("Debe eliminar un nodo mayor")
+        void removeBranchCorrecto2() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(7);
+            bst.removeBranch(7);
+            assertEquals("5(,)", bst.render());
+        }
+
+        @Test
+        @DisplayName("Debe lanzar excepción si el nodo no existe")
+        void removeBranchIncorrecto2() {
+            assertThrows(BinarySearchTreeException.class, () -> {
+                BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+                bst.insert(5);
+                bst.removeBranch(1);
+            });
+        }
     }
 
-    @DisplayName("Prueba del removeBranch, que sea correcto y mayor que el nodo")
-    @Test
-    public void removeBranchCorrecto2(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        bst.insert(5);
-        bst.insert(3);  
-        bst.insert(7);
-        bst.insert(2);
-        bst.insert(4);
-        bst.insert(6);
-        bst.insert(8);
-        bst.removeBranch(7);
-        //Assert
-        assertEquals("5(3(2,4),)",bst.render());
+    @Nested
+    @DisplayName("Pruebas de Size")
+    class SizeTests {
+        @Test
+        @DisplayName("Debe retornar el tamaño correcto")
+        void sizeCorrecto() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(3);
+            assertEquals(2, bst.size());
+        }
+
+        @Test
+        @DisplayName("Debe retornar 0 si el árbol está vacío")
+        void sizeVacio() {
+            assertEquals(0, new BinarySearchTree<>(Integer::compareTo).size());
+        }
     }
 
-    @DisplayName("Prueba del size, que sea correcto y árbol no nulo")
-    @Test
-    public void sizeCorrecto(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        bst.insert(5);
-        bst.insert(3);  
-        bst.insert(7);
-        bst.insert(2);
-        bst.insert(4);
-        bst.insert(6);
-        bst.insert(8);
-        //Assert
-        assertEquals(7,bst.size());
+    @Nested
+    @DisplayName("Pruebas de Depth")
+    class DepthTests {
+        @Test
+        @DisplayName("Debe retornar la profundidad correcta")
+        void depthCorrecto() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(3);
+            assertEquals(2, bst.depth());
+        }
+
+        @Test
+        @DisplayName("Debe retornar 0 si el árbol está vacío")
+        void depthVacio() {
+            assertEquals(0, new BinarySearchTree<>(Integer::compareTo).depth());
+        }
     }
 
-    @DisplayName("Prueba del size, que sea un arbol nulo")
-    @Test
-    public void sizeCorrecto2(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        //Assert
-        assertEquals(0,bst.size());
-    }
+    @Nested
+    @DisplayName("Pruebas de Render")
+    class RenderTests {
+        @Test
+        @DisplayName("Debe renderizar correctamente cuando solo hay un hijo izquierdo")
+        void renderCorrecto() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(3);
+            assertEquals("5(3,)", bst.render());
+        }
 
-    @DisplayName("Prueba del depth, que sea correcto y árbol no nulo")
-    @Test
-    public void depthCorrecto(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        bst.insert(5);
-        bst.insert(3);  
-        bst.insert(7);
-        bst.insert(2);
-        bst.insert(4);
-        bst.insert(6);
-        bst.insert(8);
-        //Assert
-        assertEquals(3,bst.depth());
-    }
-
-    @DisplayName("Prueba del depth, que sea un arbol nulo")
-    @Test
-    public void depthCorrecto2(){
-        //Arrange 
-        BinarySearchTree<Integer>bst = new BinarySearchTree<>(Integer::compareTo);
-        //Act
-        //Assert
-        assertEquals(0,bst.depth());
+        @Test
+        @DisplayName("Debe renderizar correctamente cuando solo hay un hijo derecho")
+        void renderCorrecto2() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(7);
+            assertEquals("5(,7)", bst.render());
+        }
     }
 }

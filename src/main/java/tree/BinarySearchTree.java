@@ -1,8 +1,10 @@
 package tree;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 // import java.util.List;
 // import java.util.ArrayList;
+import java.util.List;
 
 public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
     private Comparator<T> comparator;
@@ -188,6 +190,82 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
     }
 
     // Complex operations
-    // (Estas operaciones se incluirán más adelante para ser realizadas en la segunda
-    // sesión de laboratorio de esta práctica)
+
+    /**
+     * Removes the first occurrence of the specified element from this binary search tree, if it is present.
+     *
+     * @param value to be removed from this binary tree, if present
+     * @throws BinaryTreeException if the element is not present in the binary tree
+     */
+    public void removeValue(T value) {
+        if (!contains(value) || this.value == null){
+            throw new BinarySearchTreeException("El valor no lo contiene o el árbol está vacío");
+        }
+
+        if(comparator.compare(value, this.value) < 0){
+            if(this.left != null){
+                this.left.removeValue(value);
+            }
+        }
+        else if(comparator.compare(value, this.value) > 0){
+            if(this.right != null){
+                this.right.removeValue(value);
+            }
+        }
+        else{
+            T arbolaux = this.right.minimum();
+            this.value = arbolaux;
+            removeBranch(arbolaux);
+        }
+    }
+
+    /**
+     * Returns a List of all the values of the tree in order.
+     *
+     * @return a List of all the values of the tree in order
+     */
+    public List<T> inOrder(){
+        List<T> lista = new ArrayList<>();
+
+        if(this.value != null){
+            if(this.left != null){
+                lista.addAll(this.left.inOrder());
+            }
+            lista.add(this.value);
+            
+            if(this.right != null){
+                lista.addAll(this.right.inOrder());
+            }
+        }
+
+        return lista;
+    }
+
+    /**
+     * Balance the binary search tree. Making the depth of the
+     * left and right subtrees of every node differ by at most one.
+     */
+    public void balance(){
+        List<T> lista = inOrder();
+        BinarySearchTree<T> arbol = new BinarySearchTree<>(comparator);
+        balanceAux(lista, arbol);
+        this.value = arbol.value;
+        this.left = arbol.left;
+        this.right = arbol.right;      
+
+    }
+
+    private void balanceAux(List<T> lista, BinarySearchTree<T> arbol){
+        if(lista.size() == 1){
+            arbol.insert(lista.get(0));
+        }
+        else if(lista.size() > 1){
+            int mitad = lista.size() / 2;
+            arbol.insert(lista.get(mitad));
+            List<T> izq = lista.subList(0, mitad);
+            List<T> der = lista.subList(mitad + 1, lista.size());
+            balanceAux(izq, arbol);
+            balanceAux(der, arbol);
+        }
+    }
 }

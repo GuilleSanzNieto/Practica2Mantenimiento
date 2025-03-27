@@ -28,6 +28,8 @@ public class BinarySearchTreeMain {
         bst.insert(35);
         bst.insert(60);
         System.out.println(bst.render());
+        bst.removeValue(40);
+        System.out.println(bst.render());
         System.out.println(bst.inOrder());
         bst.balance();
         System.out.println(bst.render());

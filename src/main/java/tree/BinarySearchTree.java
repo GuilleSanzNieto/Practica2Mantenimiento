@@ -194,24 +194,34 @@ public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {
      * @throws BinaryTreeException if the element is not present in the binary tree
      */
     public void removeValue(T value) {
-        if (!contains(value) || this.value == null){
+        if (this.value == null || !contains(value)) {
             throw new BinarySearchTreeException("El valor no lo contiene o el árbol está vacío");
         }
-
-        if(comparator.compare(value, this.value) < 0){
-            if(this.left != null){
-                this.left.removeValue(value);
+        
+        if (comparator.compare(value, this.value) < 0) {
+            this.left.removeValue(value);
+        } else if (comparator.compare(value, this.value) > 0) {
+            this.right.removeValue(value);
+        } else { // Nodo encontrado
+            if (this.left != null && this.right != null) {
+                // Tiene dos hijos: se reemplaza con el sucesor inorden (mínimo del subárbol derecho)
+                T successor = this.right.minimum();
+                this.value = successor;
+                this.right.removeValue(successor);
+            } else if (this.left != null) {
+                // Solo tiene subárbol izquierdo
+                this.value = this.left.value;
+                this.right = this.left.right;
+                this.left = this.left.left;
+            } else if (this.right != null) {
+                // Solo tiene subárbol derecho
+                this.value = this.right.value;
+                this.left = this.right.left;
+                this.right = this.right.right;
+            } else {
+                // Es un nodo hoja
+                this.value = null;
             }
-        }
-        else if(comparator.compare(value, this.value) > 0){
-            if(this.right != null){
-                this.right.removeValue(value);
-            }
-        }
-        else{
-            T arbolaux = this.right.minimum();
-            this.value = arbolaux;
-            removeBranch(arbolaux);
         }
     }
 

@@ -250,4 +250,22 @@ public class BinarySearchTreeTest {
             assertEquals("5(,7)", bst.render());
         }
     }
+
+    @Nested
+    @DisplayName("Pruebas de InOrder")
+    class InOrderTests {
+        @Test
+        @DisplayName("Debe retornar la lista en orden")
+        void inOrderCorrecto() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(3);
+            bst.insert(7);
+            bst.insert(2);
+            bst.insert(4);
+            bst.insert(6);
+            bst.insert(8);
+            assertEquals("[2, 3, 4, 5, 6, 7, 8]", bst.inOrder().toString());
+        }
+    }
 }

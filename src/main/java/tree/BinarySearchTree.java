@@ -2,8 +2,6 @@ package tree;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-// import java.util.List;
-// import java.util.ArrayList;
 import java.util.List;
 
 public class BinarySearchTree<T> implements BinarySearchTreeStructure<T> {

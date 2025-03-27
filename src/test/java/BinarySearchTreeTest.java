@@ -252,6 +252,85 @@ public class BinarySearchTreeTest {
     }
 
     @Nested
+    @DisplayName("Pruebas de removeValue")
+    class RemoveValueTests{
+        @Test
+        @DisplayName("Debe lanzar excepción si el nodo no existe")
+        void removeValueIncorrecto() {
+            assertThrows(BinarySearchTreeException.class, () -> {
+                BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+                bst.removeValue(3);
+            });
+        }
+
+        @Test
+        @DisplayName("Debe lanzar excepción si el árbol está vacío")
+        void removeValueIncorrecto2() {
+            assertThrows(BinarySearchTreeException.class, () -> {
+                BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+                bst.removeValue(5);
+            });
+        }
+
+        @Test
+        @DisplayName("Debe lanzar excepción si el valor no está en el árbol")
+        void removeValueIncorrecto3() {
+            assertThrows(BinarySearchTreeException.class, () -> {
+                BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+                bst.insert(5);
+                bst.insert(3);
+                bst.insert(7);
+                bst.removeValue(1);
+            });
+        }
+        
+        @Test
+        @DisplayName("Debe eliminar un nodo hoja")
+        void removeValueCorrecto() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(3);
+            bst.insert(7);
+            bst.removeValue(3);
+            assertEquals("5(,7)", bst.render());
+        }
+
+        @Test
+        @DisplayName("Debe eliminar un nodo con un hijo a la derecha")
+        void removeValueCorrecto1() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(3);
+            bst.insert(4);
+            bst.insert(7);
+            bst.removeValue(3);
+            assertEquals("5(4,7)", bst.render());
+        }
+
+        @Test
+        @DisplayName("Debe eliminar un nodo con un hijo")
+        void removeValueCorrecto2() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(3);
+            bst.insert(7);
+            bst.removeValue(7);
+            assertEquals("5(3,)", bst.render());
+        }
+
+        @Test
+        @DisplayName("Debe eliminar un nodo con dos hijos")
+        void removeValueCorrecto3() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(3);
+            bst.insert(7);
+            bst.removeValue(5);
+            assertEquals("7(3,)", bst.render());
+        }   
+    }
+
+    @Nested
     @DisplayName("Pruebas de InOrder")
     class InOrderTests {
         @Test

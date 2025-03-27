@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BinarySearchTree.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">junit5-mps-uma</a> &gt; <a href="index.source.html" class="el_package">tree</a> &gt; <span class="el_source">BinarySearchTree.java</span></div><h1>BinarySearchTree.java</h1><pre class="source lang-java linenums">package tree;
 
+import java.util.ArrayList;
 import java.util.Comparator;
-// import java.util.List;
-// import java.util.ArrayList;
+import java.util.List;
 
 public class BinarySearchTree&lt;T&gt; implements BinarySearchTreeStructure&lt;T&gt; {
     private Comparator&lt;T&gt; comparator;
@@ -49,19 +49,19 @@ public class BinarySearchTree&lt;T&gt; implements BinarySearchTreeStructure&lt;T
 
 <span class="fc bfc" id="L50" title="All 2 branches covered.">        if (this.value == null){</span>
 <span class="fc" id="L51">            this.value = value;</span>
-<span class="fc" id="L52">        }else{</span>
+        }else{
 <span class="fc bfc" id="L53" title="All 2 branches covered.">            if (comparator.compare(value, this.value) &lt; 0){</span>
 <span class="fc bfc" id="L54" title="All 2 branches covered.">                if (this.left == null){</span>
 <span class="fc" id="L55">                    this.left = new BinarySearchTree&lt;T&gt;(comparator);</span>
 <span class="fc" id="L56">                    this.left.value = value;</span>
-<span class="fc" id="L57">                }else{</span>
+                }else{
 <span class="fc" id="L58">                    this.left.insert(value);</span>
                 }
-<span class="fc" id="L60">            }else{</span>
+            }else{
 <span class="fc bfc" id="L61" title="All 2 branches covered.">                if (this.right==null){</span>
 <span class="fc" id="L62">                    this.right = new BinarySearchTree&lt;T&gt;(comparator);</span>
 <span class="fc" id="L63">                    this.right.value = value;</span>
-<span class="fc" id="L64">                }else{</span>
+                }else{
 <span class="fc" id="L65">                    this.right.insert(value);</span>
                 }
             }
@@ -82,12 +82,12 @@ public class BinarySearchTree&lt;T&gt; implements BinarySearchTreeStructure&lt;T
 <span class="fc" id="L82">        boolean cont = false; </span>
 <span class="fc bfc" id="L83" title="All 2 branches covered.">        if(this.value.equals(value)){</span>
 <span class="fc" id="L84">            cont = true;</span>
-<span class="fc" id="L85">        }else{</span>
+        }else{
 <span class="fc bfc" id="L86" title="All 2 branches covered.">           if(comparator.compare(value, this.value) &lt; 0){</span>
 <span class="fc bfc" id="L87" title="All 2 branches covered.">                if(this.left != null){</span>
 <span class="fc" id="L88">                     cont = this.left.contains(value);</span>
                 }
-<span class="fc" id="L90">            }else{</span>
+            }else{
 <span class="fc bfc" id="L91" title="All 2 branches covered.">                if(this.right != null){</span>
 <span class="fc" id="L92">                    cont = this.right.contains(value);</span>
                 }
@@ -106,7 +106,7 @@ public class BinarySearchTree&lt;T&gt; implements BinarySearchTreeStructure&lt;T
         //El minimo estara  a la izquierda del arbol lo mas que se pueda
 <span class="fc bfc" id="L107" title="All 2 branches covered.">        if(this.left != null){</span>
 <span class="fc" id="L108">            min = this.left.minimum();</span>
-<span class="fc" id="L109">        }else {</span>
+        }else {
 <span class="fc" id="L110">            min = this.value;</span>
         }
         // TODO
@@ -122,7 +122,7 @@ public class BinarySearchTree&lt;T&gt; implements BinarySearchTreeStructure&lt;T
         //El maximo estara a la derecha del arbol lo mas que se pueda y sera una hoja
 <span class="fc bfc" id="L123" title="All 2 branches covered.">        if(this.right != null){</span>
 <span class="fc" id="L124">            max = this.right.maximum();</span>
-<span class="fc" id="L125">        }else {</span>
+        }else {
 <span class="fc" id="L126">            max = this.value;</span>
         }
         // TODO
@@ -141,7 +141,7 @@ public class BinarySearchTree&lt;T&gt; implements BinarySearchTreeStructure&lt;T
 <span class="fc bfc" id="L141" title="All 2 branches covered.">        }else if(comparator.compare(value, this.value) &gt; 0){</span>
 <span class="fc" id="L142">            this.right.removeBranch(value);</span>
             
-<span class="fc" id="L144">        }else{</span>
+        }else{
 <span class="fc" id="L145">            this.value=null; </span>
 <span class="fc" id="L146">            this.left=null; </span>
 <span class="fc" id="L147">            this.right=null; </span>
@@ -157,8 +157,8 @@ public class BinarySearchTree&lt;T&gt; implements BinarySearchTreeStructure&lt;T
 <span class="fc bfc" id="L157" title="All 2 branches covered.">            if(this.left != null){</span>
 <span class="fc" id="L158">                cont += this.left.size();</span>
             }
-<span class="fc bfc" id="L160" title="All 2 branches covered.">            if(this.right != null){</span>
-<span class="fc" id="L161">                cont += this.right.size();</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">            if(this.right != null){</span>
+<span class="nc" id="L161">                cont += this.right.size();</span>
             }
         }
         //TODO
@@ -174,8 +174,8 @@ public class BinarySearchTree&lt;T&gt; implements BinarySearchTreeStructure&lt;T
 <span class="fc bfc" id="L174" title="All 2 branches covered.">            if(this.left != null){</span>
 <span class="fc" id="L175">                ileft += this.left.depth();</span>
             }
-<span class="fc bfc" id="L177" title="All 2 branches covered.">            if(this.right != null){</span>
-<span class="fc" id="L178">                irigth += this.right.depth();</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">            if(this.right != null){</span>
+<span class="nc" id="L178">                irigth += this.right.depth();</span>
             }
 <span class="fc" id="L180">            depth = Math.max(ileft, irigth) + 1;</span>
 <span class="fc" id="L181">        }else{</span>
@@ -186,7 +186,93 @@ public class BinarySearchTree&lt;T&gt; implements BinarySearchTreeStructure&lt;T
     }
 
     // Complex operations
-    // (Estas operaciones se incluirán más adelante para ser realizadas en la segunda
-    // sesión de laboratorio de esta práctica)
+
+    /**
+     * Removes the first occurrence of the specified element from this binary search tree, if it is present.
+     *
+     * @param value to be removed from this binary tree, if present
+     * @throws BinaryTreeException if the element is not present in the binary tree
+     */
+    public void removeValue(T value) {
+<span class="fc bfc" id="L197" title="All 4 branches covered.">        if (this.value == null || !contains(value)) {</span>
+<span class="fc" id="L198">            throw new BinarySearchTreeException(&quot;El valor no lo contiene o el árbol está vacío&quot;);</span>
+        }
+        
+<span class="fc bfc" id="L201" title="All 2 branches covered.">        if (comparator.compare(value, this.value) &lt; 0) {</span>
+<span class="fc" id="L202">            this.left.removeValue(value);</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">        } else if (comparator.compare(value, this.value) &gt; 0) {</span>
+<span class="fc" id="L204">            this.right.removeValue(value);</span>
+        } else { // Nodo encontrado
+<span class="pc bpc" id="L206" title="1 of 4 branches missed.">            if (this.left != null &amp;&amp; this.right != null) {</span>
+                // Tiene dos hijos: se reemplaza con el sucesor inorden (mínimo del subárbol derecho)
+<span class="fc" id="L208">                T successor = this.right.minimum();</span>
+<span class="fc" id="L209">                this.value = successor;</span>
+<span class="fc" id="L210">                this.right.removeValue(successor);</span>
+<span class="pc bpc" id="L211" title="1 of 2 branches missed.">            } else if (this.left != null) {</span>
+                // Solo tiene subárbol izquierdo
+<span class="nc" id="L213">                this.value = this.left.value;</span>
+<span class="nc" id="L214">                this.right = this.left.right;</span>
+<span class="nc" id="L215">                this.left = this.left.left;</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">            } else if (this.right != null) {</span>
+                // Solo tiene subárbol derecho
+<span class="fc" id="L218">                this.value = this.right.value;</span>
+<span class="fc" id="L219">                this.left = this.right.left;</span>
+<span class="fc" id="L220">                this.right = this.right.right;</span>
+            } else {
+                // Es un nodo hoja
+<span class="fc" id="L223">                this.value = null;</span>
+            }
+        }
+<span class="fc" id="L226">    }</span>
+
+    /**
+     * Returns a List of all the values of the tree in order.
+     *
+     * @return a List of all the values of the tree in order
+     */
+    public List&lt;T&gt; inOrder(){
+<span class="fc" id="L234">        List&lt;T&gt; lista = new ArrayList&lt;&gt;();</span>
+
+<span class="pc bpc" id="L236" title="1 of 2 branches missed.">        if(this.value != null){</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">            if(this.left != null){</span>
+<span class="fc" id="L238">                lista.addAll(this.left.inOrder());</span>
+            }
+<span class="fc" id="L240">            lista.add(this.value);</span>
+            
+<span class="fc bfc" id="L242" title="All 2 branches covered.">            if(this.right != null){</span>
+<span class="fc" id="L243">                lista.addAll(this.right.inOrder());</span>
+            }
+        }
+
+<span class="fc" id="L247">        return lista;</span>
+    }
+
+    /**
+     * Balance the binary search tree. Making the depth of the
+     * left and right subtrees of every node differ by at most one.
+     */
+    public void balance(){
+<span class="nc" id="L255">        List&lt;T&gt; lista = inOrder();</span>
+<span class="nc" id="L256">        BinarySearchTree&lt;T&gt; arbol = new BinarySearchTree&lt;&gt;(comparator);</span>
+<span class="nc" id="L257">        balanceAux(lista, arbol);</span>
+<span class="nc" id="L258">        this.value = arbol.value;</span>
+<span class="nc" id="L259">        this.left = arbol.left;</span>
+<span class="nc" id="L260">        this.right = arbol.right;      </span>
+
+<span class="nc" id="L262">    }</span>
+
+    private void balanceAux(List&lt;T&gt; lista, BinarySearchTree&lt;T&gt; arbol){
+<span class="nc bnc" id="L265" title="All 2 branches missed.">        if(lista.size() == 1){</span>
+<span class="nc" id="L266">            arbol.insert(lista.get(0));</span>
+        }
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        else if(lista.size() &gt; 1){</span>
+<span class="nc" id="L269">            int mitad = lista.size() / 2;</span>
+<span class="nc" id="L270">            arbol.insert(lista.get(mitad));</span>
+<span class="nc" id="L271">            List&lt;T&gt; izq = lista.subList(0, mitad);</span>
+<span class="nc" id="L272">            List&lt;T&gt; der = lista.subList(mitad + 1, lista.size());</span>
+<span class="nc" id="L273">            balanceAux(izq, arbol);</span>
+<span class="nc" id="L274">            balanceAux(der, arbol);</span>
+        }
+<span class="nc" id="L276">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

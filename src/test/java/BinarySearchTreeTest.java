@@ -1,6 +1,9 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+//Guillermo Sanz Nieto y Marta Vegas Cuevas
+//Grupo G
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -195,11 +198,20 @@ public class BinarySearchTreeTest {
     @DisplayName("Pruebas de Size")
     class SizeTests {
         @Test
-        @DisplayName("Debe retornar el tamaño correcto")
+        @DisplayName("Debe retornar el tamaño correcto y arbol izquierdo no vacio")
         void sizeCorrecto() {
             BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
             bst.insert(5);
             bst.insert(3);
+            assertEquals(2, bst.size());
+        }
+
+        @Test
+        @DisplayName("Debe retirnar el tamaño correcto y arbol derecho no vacio")
+        void sizeCorrecto2(){
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(7);
             assertEquals(2, bst.size());
         }
 
@@ -214,11 +226,19 @@ public class BinarySearchTreeTest {
     @DisplayName("Pruebas de Depth")
     class DepthTests {
         @Test
-        @DisplayName("Debe retornar la profundidad correcta")
+        @DisplayName("Debe retornar la profundidad correcta y arbol a la izquierda")
         void depthCorrecto() {
             BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
             bst.insert(5);
             bst.insert(3);
+            assertEquals(2, bst.depth());
+        }
+        @Test
+        @DisplayName("Debe retornar la profundidad corrceta y arbol es hacia la derecha")
+        void depthCorrecto2(){
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
+            bst.insert(5);
+            bst.insert(7);
             assertEquals(2, bst.depth());
         }
 
@@ -297,26 +317,29 @@ public class BinarySearchTreeTest {
 
         @Test
         @DisplayName("Debe eliminar un nodo con un hijo a la derecha")
-        void removeValueCorrecto1() {
+        void removeValue_hijoDer() {
             BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
             bst.insert(5);
             bst.insert(3);
-            bst.insert(4);
             bst.insert(7);
-            bst.removeValue(3);
-            assertEquals("5(4,7)", bst.render());
+            bst.insert(8);
+            bst.removeValue(7);
+            assertEquals("5(3,8)", bst.render());
         }
 
         @Test
-        @DisplayName("Debe eliminar un nodo con un hijo")
-        void removeValueCorrecto2() {
+        @DisplayName("Debe eliminar un nodo con un hijo a la izquierda")
+        void removeValue_hijoIzq(){
             BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
             bst.insert(5);
             bst.insert(3);
+            bst.insert(2);
             bst.insert(7);
-            bst.removeValue(7);
-            assertEquals("5(3,)", bst.render());
+            bst.removeValue(3);
+            assertEquals("5(2,7)", bst.render());
         }
+
+        
 
         @Test
         @DisplayName("Debe eliminar un nodo con dos hijos")
@@ -334,17 +357,30 @@ public class BinarySearchTreeTest {
     @DisplayName("Pruebas de InOrder")
     class InOrderTests {
         @Test
-        @DisplayName("Debe retornar la lista en orden")
-        void inOrderCorrecto() {
+        @DisplayName("caso en el que el arbol sea null")
+        void inOrder_Incorrecto(){
             BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
-            bst.insert(5);
-            bst.insert(3);
-            bst.insert(7);
-            bst.insert(2);
-            bst.insert(4);
+            assertEquals("[]", bst.inOrder().toString());
+        }
+    }
+
+    @Nested
+    @DisplayName("Pruebas de Balance")
+    class BalanceTests {
+        @Test
+        @DisplayName("Debe retornar el balance correcto")
+        void balanceCorrecto() {
+            BinarySearchTree<Integer> bst = new BinarySearchTree<>(Integer::compareTo);
             bst.insert(6);
+            bst.insert(4);
             bst.insert(8);
-            assertEquals("[2, 3, 4, 5, 6, 7, 8]", bst.inOrder().toString());
+            bst.insert(7);
+            bst.insert(9);
+            bst.insert(10);
+
+            bst.balance();
+
+            assertEquals("8(6(4,7),10(9,))", bst.render());
         }
     }
 }
